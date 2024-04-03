@@ -1,0 +1,44 @@
+{
+  "name": "space-otterssey",
+  "repository": "Space-Otterssey-Thesis",
+  "version": "0.1.0",
+  "title": "Space Otterssey",
+  "description": "As a young space otter, your task is to gather as much alien fruit as you can.",
+  "keywords": [
+    "otter",
+    "graphics",
+    "three.js",
+    "Space",
+    "video game"
+  ],
+  "scripts": {
+    "start": "webpack-dev-server --mode development --output-public-path \"\"",
+    "prebuild": "rimraf ./build && mkdirp ./build",
+    "build": "npm run prebuild && webpack --mode production --progress --output-public-path \"\"",
+    "format": "prettier --write '*.js' 'src/**/*.js'",
+    "deploy": "npm run prebuild && webpack --mode production --progress && gh-pages -d build"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.7",
+    "socket.io": "^4.7.5",
+    "three": "^0.147.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "file-loader": "^6.0.0",
+    "gh-pages": "^2.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mkdirp": "^1.0.4",
+    "prettier": "^2.0.5",
+    "raw-loader": "^4.0.1",
+    "rimraf": "^3.0.2",
+    "webpack": "^5.75.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
