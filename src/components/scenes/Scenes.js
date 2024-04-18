@@ -1,6 +1,6 @@
 import { WebGLRenderer} from 'three';
 import Planet_Seed from './Planet_Seed';
-import TitleScene from './TitleScene';
+// import TitleScene from './TitleScene';
 
 class Scenes {
     constructor(){
@@ -20,7 +20,7 @@ class Scenes {
         // this.scenes['SeedSceneThree'] = new SeedSceneThree();
         // this.scenes['TransitionOne'] = new TransitionOne();
         // this.scenes['TransitionTwo'] = new TransitionTwo();
-        this.scenes['TitleScene'] = new TitleScene();
+        // this.scenes['TitleScene'] = new TitleScene();
         // this.scenes['End'] = new End();
 
 
