@@ -4,7 +4,7 @@ import {
 } from 'three';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader.js'
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry.js'
-import { BoxGeometry, MeshPhongMaterial, Mesh, Audio, AudioListener, AudioLoader } from 'three';
+import { BoxGeometry, MeshPhongMaterial, Mesh, Audio, AudioListener, AudioLoader, Clock} from 'three';
 import { Land, Otter, Text, Otter_Cam, Fruit, Grape, Fruit2, Plant} from 'objects';
 import { BasicLights } from 'lights';
 import { Scenes } from '.';
@@ -14,6 +14,8 @@ class Planet_Seed extends Scene {
     constructor() {
         // Call parent Scene() constructor
         super();
+        this.time = new Clock(true);
+        
 
         // Init state
         this.state = {
@@ -55,32 +57,19 @@ class Planet_Seed extends Scene {
             plant.scale.set(0.35, 0.35, 0.35);
             plant.position.set(posXs[counter], 0.0, posZs[counter])
             poison.push(plant)
-            // this.add(plant)
+            this.add(plant)
             counter++
         }
 
         let all_items = []
 
-        // const bad = new Plant(this);
-        // // bad.scale.set(0.7, 0.7, 0.,7)
-        // // this.add(bad)
-        // const fruit = new Fruit(this);
-        // fruit.scale.set(0.6, 0.6, 0.6);
-        // fruit.position.set(0, 0, 0);
-        // const fruit2 = new Fruit2(this);
-        // fruit2.scale.set(0.50, 0.5, 0.5);
-        // fruit2.position.set(-4, 0, 0);
-        // const grape = new Grape(this);
-        // grape.scale.set(0.5, 0.5, 0.5);
-        // grape.position.set(4, 0, 0);
-        // // this.add(fruit, fruit2, grape)
-
         for (let i = 0; i < 7; i++){
             const fruit = new Fruit(this);
             fruit.scale.set(0.3, 0.3, 0.3);
             fruit.position.set(posXs[counter], 0.0, posZs[counter])
+
             all_items.push(fruit)
-            // this.add(fruit)
+            this.add(fruit)
             counter++
         }
         for (let i = 0; i < 6; i++){
@@ -88,17 +77,15 @@ class Planet_Seed extends Scene {
             fruit.scale.set(0.25, 0.25, 0.25);
             fruit.position.set(posXs[counter], 0.0, posZs[counter])
             all_items.push(fruit)
-            // this.add(fruit)
+            this.add(fruit)
             counter++
         }
         for (let i = 0; i < 7; i++){
-            const posX = Math.floor(Math.random() * 50) - 25;
-            const posZ =  Math.floor(Math.random() * 50 - 25) ;
             const fruit = new Fruit2(this);
             fruit.scale.set(0.25, 0.25, 0.25);
             fruit.position.set(posXs[counter], 0.0, posZs[counter])
             all_items.push(fruit)
-            // this.add(fruit)
+            this.add(fruit)
             counter++
         }
         
@@ -106,6 +93,7 @@ class Planet_Seed extends Scene {
 
         // this.genText();
         this.dead = false;
+        this.time.start()
         this.onKeyDown = (event) => {
 
             if(!this.dead) {
@@ -187,6 +175,8 @@ class Planet_Seed extends Scene {
                             otter_cam.state.moveRight = false;
                             otter_cam.state.speed = false; 
                             otter.die()
+                            otter.state.bob = false;
+                            // otter.position = -20;
                             break
                         }
                     }
@@ -213,10 +203,12 @@ class Planet_Seed extends Scene {
             }
             else {
                 if (event.keyCode == 32 ){
-                    this.restart()
-                    this.dead = false
-                    otter.state.reset = true
-                    otter_cam.state.reset = true
+                    // this.restart()
+                    // this.dead = false
+                    // otter.state.reset = true
+                    // otter.state.bob = true
+                    // otter_cam.state.reset = true
+                    location.reload()
                 }
             }
         }
@@ -245,17 +237,16 @@ class Planet_Seed extends Scene {
             }
             
         }
-        // this.add(land, lights, otter);
+        this.add(land, lights, otter);
         // this.add(land, lights);
-        this.add(lights, otter)
+        // this.add(otter, lights)
     }
 
     init() {
-        // this.remove(Scenes.scenes['Planet_Seed'].textMesh);
+     
         var string = "HOW TO PLAY\nUse 'WASD' or arrow keys to move\nPress SHIFT to sprint\nPress SPACE to collect fruit\nWarning: Be careful what you eat!";
-        string = ''
         const loader = new FontLoader();
-        // this.textMesh.remove;
+       
         loader.load(Fonts, function (font) {
             const textGeometry2 = new TextGeometry(string, {
                 font: font,
@@ -319,7 +310,8 @@ class Planet_Seed extends Scene {
 
     won(pos) {
         this.remove(Scenes.scenes['Planet_Seed'].textMesh); 
-        const string = "You Won!";
+        const string = "You Won!\n Score: " + Math.floor(this.time.getElapsedTime()) + " Seconds";
+        // const string = "You Won!";
         const loader = new FontLoader();
         loader.load(Fonts, function (font) {
             const textGeometry2 = new TextGeometry(string, {
@@ -329,7 +321,7 @@ class Planet_Seed extends Scene {
             });
             Scenes.scenes['Planet_Seed'].textMesh = new Mesh(textGeometry2, new MeshPhongMaterial({color: 0xffffff}));
             Scenes.scenes['Planet_Seed'].add(Scenes.scenes['Planet_Seed'].textMesh);       
-            Scenes.scenes['Planet_Seed'].textMesh.position.set(pos.x - 1.5, pos.y + 2, pos.z + 2.5)
+            Scenes.scenes['Planet_Seed'].textMesh.position.set(pos.x - 1.5, pos.y + 2, pos.z - 3.5)
         });
     }
 

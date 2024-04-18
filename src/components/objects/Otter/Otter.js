@@ -5,6 +5,7 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 // import MODEL from './otter_final.gltf';
 import MODEL from './otter_animate.gltf';
 
+
 class Otter extends Group {
     constructor(parent) {
         // Call parent Group() constructor
@@ -57,6 +58,8 @@ class Otter extends Group {
             color: 0xbbbfbc,
             opacity: 0.5
         })
+
+        
         let blobs = []
         for (let i = 0; i < 10; i++) {
             let blob = new THREE.Mesh(geometry, material)
