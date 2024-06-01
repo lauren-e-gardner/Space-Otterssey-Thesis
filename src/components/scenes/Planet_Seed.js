@@ -21,7 +21,7 @@ class Planet_Seed extends Scene {
         this.state = {
             updateList: [],
         };
-        this.background = new Color( 0x4f4f4f );
+        this.background = new Color( 0xffffff );
 
         let otter_cam = new Otter_Cam(this)
         this.camera = otter_cam.camera
@@ -32,11 +32,11 @@ class Planet_Seed extends Scene {
         const lights = new BasicLights();
         const otter = new Otter(this);
         otter.scale.set(1.25,1.25,1.25)
+
         this.addToUpdateList(land)
         this.otter = otter
         this.score = 0
 
-        
         let posXs = []
         let posZs = []
         let count = 0
@@ -176,7 +176,6 @@ class Planet_Seed extends Scene {
                             otter_cam.state.speed = false; 
                             otter.die()
                             otter.state.bob = false;
-                            // otter.position = -20;
                             break
                         }
                     }
@@ -186,6 +185,7 @@ class Planet_Seed extends Scene {
                                 this.score++
                                 this.genText(all_items[i].position, this.score)
                                 this.remove(all_items[i])
+
                                 all_items.splice(i,1)
                                 otter.spin()
                                 found = true;
@@ -203,11 +203,6 @@ class Planet_Seed extends Scene {
             }
             else {
                 if (event.keyCode == 32 ){
-                    // this.restart()
-                    // this.dead = false
-                    // otter.state.reset = true
-                    // otter.state.bob = true
-                    // otter_cam.state.reset = true
                     location.reload()
                 }
             }
@@ -238,8 +233,6 @@ class Planet_Seed extends Scene {
             
         }
         this.add(land, lights, otter);
-        // this.add(land, lights);
-        // this.add(otter, lights)
     }
 
     init() {
@@ -274,7 +267,6 @@ class Planet_Seed extends Scene {
                 height: 0,
             });
             Scenes.scenes['Planet_Seed'].textMesh = new Mesh(textGeometry2, new MeshPhongMaterial({color: 0xffffff}));
-            //Scenes.scenes['TitleScene'].textMesh.position.set(grub_position.x, grub_position.y, grub_position.z + 0.2);
             Scenes.scenes['Planet_Seed'].add(Scenes.scenes['Planet_Seed'].textMesh);       
             Scenes.scenes['Planet_Seed'].textMesh.position.set(pos.x-2.75, pos.y+2, pos.z+2)
         });
@@ -285,7 +277,6 @@ class Planet_Seed extends Scene {
                 height: 0,
             });
             Scenes.scenes['Planet_Seed'].textMeshRestart = new Mesh(textGeometry2, new MeshPhongMaterial({color: 0xffffff}));
-            //Scenes.scenes['TitleScene'].textMesh.position.set(grub_position.x, grub_position.y, grub_position.z + 0.2);
             Scenes.scenes['Planet_Seed'].add(Scenes.scenes['Planet_Seed'].textMeshRestart);       
             Scenes.scenes['Planet_Seed'].textMeshRestart.position.set(pos.x - 1.5, pos.y+2, pos.z + 3.0)
         });
@@ -293,9 +284,8 @@ class Planet_Seed extends Scene {
 
     genText(pos, score){
         this.remove(Scenes.scenes['Planet_Seed'].textMesh);
-        const string = "Score: " + score;
+        const string = "Score: " + score + "\nTime: " + Math.floor(this.time.getElapsedTime()) + " Seconds";
         const loader = new FontLoader();
-        // this.textMesh.remove;
         loader.load(Fonts, function (font) {
             const textGeometry2 = new TextGeometry(string, {
                 font: font,
@@ -310,8 +300,7 @@ class Planet_Seed extends Scene {
 
     won(pos) {
         this.remove(Scenes.scenes['Planet_Seed'].textMesh); 
-        const string = "You Won!\n Score: " + Math.floor(this.time.getElapsedTime()) + " Seconds";
-        // const string = "You Won!";
+        const string = "You Won!\n Time: " + Math.floor(this.time.getElapsedTime()) + " Seconds";
         const loader = new FontLoader();
         loader.load(Fonts, function (font) {
             const textGeometry2 = new TextGeometry(string, {
@@ -340,8 +329,6 @@ class Planet_Seed extends Scene {
     }
 
     addEvents() {
-        // Resize Handler
-        // this.windowResizeHandler();
         window.addEventListener('resize', this.windowResizeHandler, false);
         window.addEventListener('keydown', this.onKeyDown, true);
         window.addEventListener('keyup', this.onKeyUp, true);
